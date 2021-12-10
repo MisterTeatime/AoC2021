@@ -75,5 +75,7 @@ class Stack<E>(vararg items: E) {
     fun isEmpty() = elements.isEmpty()
     fun size() = elements.size
 
+    fun toList() = elements.toList()
+
     override fun toString() = "Stack(${elements.joinToString()})"
 }
