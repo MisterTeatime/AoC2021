@@ -66,16 +66,20 @@ class Line(coords: List<String>) {
     }
 }
 
-class Stack<E>(vararg items: E) {
+class MyStack<E>(vararg items: E): Collection<E> {
     private val elements = items.toMutableList()
 
     fun push(element: E) = elements.add(element)
     fun peek(): E = elements.last()
     fun pop(): E = elements.removeAt(elements.size-1)
-    fun isEmpty() = elements.isEmpty()
-    fun size() = elements.size
+    override fun isEmpty() = elements.isEmpty()
+    override fun contains(element: E) = elements.contains(element)
+    override fun containsAll(elements: Collection<E>) = elements.containsAll(elements)
 
-    fun toList() = elements.toList()
+    //fun toList(): List<E> = elements.toList()
 
     override fun toString() = "Stack(${elements.joinToString()})"
+    override fun iterator() = elements.iterator()
+    override val size: Int
+        get() = elements.size
 }
