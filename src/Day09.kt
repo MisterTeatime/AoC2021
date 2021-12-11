@@ -1,13 +1,3 @@
-data class Area(var points: List<List<Int>>) {
-    fun at(p: Point): Int? {
-        return points.getOrElse(p.y) { listOf() }.getOrNull(p.x)
-    }
-}
-
-fun toArea(input: List<String>): Area {
-    return Area(input.map { it.map { ch -> ch.toString().toInt() } })
-}
-
 fun isLowPoint(p: Point, area: Area): Boolean {
     val height = area.at(p) ?: Int.MAX_VALUE
     return p.neighbors4()
@@ -55,21 +45,12 @@ fun findAllBasinSizes(area: Area) : List<Int> {
 
 fun main() {
     fun part1(input: List<String>): Int {
-        val area = toArea(input)
-        val riskLevel = findAllLowPoints(area).sumOf { area.at(it)!! + 1 }
-//        for (rowIdx in area.points.indices) {
-//            val row = area.points[rowIdx]
-//            for (colIdx in row.indices) {
-//                if (isLowPoint(Point(colIdx, rowIdx), area)) {
-//                    riskLevel += row[colIdx] + 1
-//                }
-//            }
-//        }
-    return riskLevel
+        val area = Area.toArea(input)
+        return findAllLowPoints(area).sumOf { area.at(it)!! + 1 }
     }
 
     fun part2(input: List<String>): Int {
-        return findAllBasinSizes(toArea(input)).sorted().reversed().take(3).fold(1) { x, y -> x * y }
+        return findAllBasinSizes(Area.toArea(input)).sorted().reversed().take(3).fold(1) { x, y -> x * y }
     }
 
     // test if implementation meets criteria from the description, like:

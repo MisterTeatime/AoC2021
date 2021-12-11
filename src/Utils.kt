@@ -20,6 +20,20 @@ data class Point (var x: Int, var y: Int) {
         val neighborPoints = listOf(Point(1,0), Point(0,1), Point(-1, 0), Point(0,-1))
         return neighborPoints.map { this + it }
     }
+
+    fun neighbors8(): List<Point> {
+        val neighborPoints = listOf(
+            Point(1,0),
+            Point(1,1),
+            Point(0,1),
+            Point(-1,1),
+            Point(-1,0),
+            Point(-1,-1),
+            Point(0,-1),
+            Point(1,-1)
+        )
+        return neighborPoints.map { this + it }
+    }
 }
 
 class Line(coords: List<String>) {
@@ -75,11 +89,20 @@ class MyStack<E>(vararg items: E): Collection<E> {
     override fun isEmpty() = elements.isEmpty()
     override fun contains(element: E) = elements.contains(element)
     override fun containsAll(elements: Collection<E>) = elements.containsAll(elements)
-
-    //fun toList(): List<E> = elements.toList()
-
     override fun toString() = "Stack(${elements.joinToString()})"
     override fun iterator() = elements.iterator()
     override val size: Int
         get() = elements.size
+}
+
+data class Area(var points: List<List<Int>>) {
+    fun at(p: Point): Int? {
+        return points.getOrElse(p.y) { listOf() }.getOrNull(p.x)
+    }
+
+    companion object Factory {
+        fun toArea(input: List<String>): Area {
+            return Area(input.map { it.map { ch -> ch.toString().toInt() } })
+        }
+    }
 }
