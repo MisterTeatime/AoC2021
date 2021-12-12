@@ -95,14 +95,18 @@ class MyStack<E>(vararg items: E): Collection<E> {
         get() = elements.size
 }
 
-data class Area(var points: List<List<Int>>) {
+data class Area(var points: List<MutableList<Int>>) {
     fun at(p: Point): Int? {
         return points.getOrElse(p.y) { listOf() }.getOrNull(p.x)
     }
 
+    fun setValue(p: Point, v: Int) {
+        if (at(p) != null) points[p.y][p.x] = v
+    }
+
     companion object Factory {
         fun toArea(input: List<String>): Area {
-            return Area(input.map { it.map { ch -> ch.toString().toInt() } })
+            return Area(input.map { it.map { ch -> ch.toString().toInt() }.toMutableList() })
         }
     }
 }
