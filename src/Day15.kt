@@ -1,15 +1,15 @@
 typealias CavePath = List<Point>
 
 fun main() {
-    fun part1(input: List<String>): Int {
+    fun part1(input: List<String>): Long {
         val cave = Area.toArea(input)
 
         val start = Point(0,0)
         val end = Point(cave.points[0].size - 1,cave.points.size - 1)
 
-        val test = findOptimalPath(start, end, cave)
+        val solution = findOptimalPath(start, end, cave)
 
-        return input.size
+        return solution.second
     }
 
     fun part2(input: List<String>): Int {
@@ -18,7 +18,7 @@ fun main() {
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day15_test")
-    check(part1(testInput) == 40)
+    check(part1(testInput) == 40L)
 
     val input = readInput("Day15")
     println(part1(input))
@@ -43,7 +43,7 @@ fun findOptimalPath(start: Point, end:Point, a: Area): Pair<CavePath, Long> {
 
         if (currentPoint == end) {
             val path = generatePath(currentPoint, cameFrom)
-            val totalCost = costFromStart[currentPoint]!! + a.at(currentPoint)!!
+            val totalCost = costFromStart[currentPoint]!! + a.at(currentPoint)!! - a.at(start)!!
 
             return Pair(path, totalCost)
         }
@@ -83,4 +83,4 @@ fun generatePath(pos: Point, cameFrom: MutableMap<Point, Point>): CavePath {
     return path
 }
 
-fun getEstimateCost(from: Point, to: Point) = from.distanceTo(to) * 9L
+fun getEstimateCost(from: Point, to: Point) = from.distanceTo(to).toLong()

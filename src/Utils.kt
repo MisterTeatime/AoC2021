@@ -40,7 +40,7 @@ data class Point (var x: Int, var y: Int) {
         return neighborPoints.map { this + it }
     }
 
-    fun distanceTo(other: Point) = (this.x - other.x).absoluteValue + (this.y + other.y).absoluteValue
+    fun distanceTo(other: Point) = (this.x - other.x).absoluteValue + (this.y - other.y).absoluteValue
 }
 
 class Line(coords: List<String>) {
