@@ -1,5 +1,3 @@
-typealias Fold = Pair<Char, Int>
-
 fun main() {
     fun part1(input: List<String>): Int {
         val points = getPoints(input)

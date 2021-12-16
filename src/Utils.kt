@@ -1,6 +1,7 @@
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
+import kotlin.math.absoluteValue
 
 /**
  * Reads lines from the given input txt file.
@@ -11,6 +12,10 @@ fun readInput(name: String) = File("src", "$name.txt").readLines()
  * Converts string to md5 hash.
  */
 fun String.md5(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray())).toString(16)
+
+typealias Graph = Map<String, List<String>>
+typealias Path = List<String>
+typealias Fold = Pair<Char, Int>
 
 data class Point (var x: Int, var y: Int) {
     operator fun plus(inc: Point) = Point(this.x + inc.x, this.y + inc.y)
@@ -34,6 +39,8 @@ data class Point (var x: Int, var y: Int) {
         )
         return neighborPoints.map { this + it }
     }
+
+    fun distanceTo(other: Point) = (this.x - other.x).absoluteValue + (this.y + other.y).absoluteValue
 }
 
 class Line(coords: List<String>) {

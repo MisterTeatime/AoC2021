@@ -1,6 +1,3 @@
-typealias Graph = Map<String, List<String>>
-typealias Path = List<String>
-
 fun main() {
     fun part1(input: List<String>): Int {
         return toGraph(input).findPaths(smallVisits = 0).size
