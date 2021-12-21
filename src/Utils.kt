@@ -23,7 +23,7 @@ data class Point (var x: Int, var y: Int) {
 
     fun neighbors4(): List<Point> {
         val neighborPoints = listOf(Point(1,0), Point(0,1), Point(-1, 0), Point(0,-1))
-        return neighborPoints.map { this + it }
+        return neighborPoints.map { this + it }.sortedWith(PointComparator())
     }
 
     fun neighbors8(): List<Point> {
@@ -37,10 +37,43 @@ data class Point (var x: Int, var y: Int) {
             Point(0,-1),
             Point(1,-1)
         )
-        return neighborPoints.map { this + it }
+        return neighborPoints.map { this + it }.sortedWith(PointComparator())
+    }
+
+    fun neighbors4AndSelf(): List<Point> {
+        val neighborPoints = neighbors4().toMutableList()
+        neighborPoints.add(this)
+        return neighborPoints.sortedWith(PointComparator())
+    }
+
+    fun neighbors8AndSelf(): List<Point> {
+        val neighborPoints = neighbors8().toMutableList()
+        neighborPoints.add(this)
+        return neighborPoints.sortedWith(PointComparator())
     }
 
     fun distanceTo(other: Point) = (this.x - other.x).absoluteValue + (this.y - other.y).absoluteValue
+
+    class PointComparator: Comparator<Point> {
+        override fun compare(p0: Point?, p1: Point?): Int {
+            return if (p0 == null || p1 == null)
+                0
+            else {
+                when {
+                    (p0.y > p1.y) -> 1
+                    (p0.y < p1.y) -> -1
+                    else -> {
+                        when {
+                            (p0.x > p1.x) -> 1
+                            (p0.x < p1.x) -> -1
+                            else -> 0
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 class Line(coords: List<String>) {
@@ -102,18 +135,30 @@ class MyStack<E>(vararg items: E): Collection<E> {
         get() = elements.size
 }
 
-data class Area(var points: List<MutableList<Int>>) {
-    fun at(p: Point): Int? {
+data class Area<T>(var points: List<MutableList<T>>) {
+    fun at(p: Point): T? {
         return points.getOrElse(p.y) { listOf() }.getOrNull(p.x)
     }
 
-    fun setValue(p: Point, v: Int) {
+    fun setValue(p: Point, v: T) {
         if (at(p) != null) points[p.y][p.x] = v
     }
 
     companion object Factory {
-        fun toArea(input: List<String>): Area {
+        fun toIntArea(input: List<String>): Area<Int> {
             return Area(input.map { it.map { ch -> ch.toString().toInt() }.toMutableList() })
+        }
+
+        fun toBinaryArea(input: List<String>, one: Char, zero: Char): Area<Int> {
+            return Area(input.map {
+                it.map { c ->
+                    when (c) {
+                        one -> 1
+                        zero -> 0
+                        else -> 0
+                    }
+                }.toMutableList()
+            })
         }
     }
 }

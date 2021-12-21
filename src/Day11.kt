@@ -1,4 +1,4 @@
-fun processFlashes(a: Area): Int {
+fun processFlashes(a: Area<Int>): Int {
     val candidates = getLoadedOctopuses(a)
     val triggered = mutableSetOf<Point>()
 
@@ -21,7 +21,7 @@ fun processFlashes(a: Area): Int {
     return triggered.size
 }
 
-fun increaseAllEnergy(a: Area) {
+fun increaseAllEnergy(a: Area<Int>) {
     for (rowIdx in a.points.indices) {
         val row = a.points[rowIdx]
         for (colIdx in row.indices) {
@@ -30,11 +30,11 @@ fun increaseAllEnergy(a: Area) {
     }
 }
 
-fun increaseEnergy(a: Area, p: Point) {
+fun increaseEnergy(a: Area<Int>, p: Point) {
     a.setValue(p, (a.at(p) ?: 0) + 1)
 }
 
-fun getLoadedOctopuses(a: Area): MutableList<Point> {
+fun getLoadedOctopuses(a: Area<Int>): MutableList<Point> {
     val loaded = mutableListOf<Point>()
     for (rowIdx in a.points.indices) {
         val row = a.points[rowIdx]
@@ -48,7 +48,7 @@ fun getLoadedOctopuses(a: Area): MutableList<Point> {
 
 fun main() {
     fun part1(input: List<String>): Int {
-        val area = Area.toArea(input)
+        val area = Area.toIntArea(input)
         var flashes = 0
         
         for (i in 1..100) {
@@ -60,7 +60,7 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        val area = Area.toArea(input)
+        val area = Area.toIntArea(input)
         var flashes = 0
         var step = 0
 

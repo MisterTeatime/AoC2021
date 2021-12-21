@@ -1,11 +1,11 @@
-fun isLowPoint(p: Point, area: Area): Boolean {
+fun isLowPoint(p: Point, area: Area<Int>): Boolean {
     val height = area.at(p) ?: Int.MAX_VALUE
     return p.neighbors4()
         .map { area.at(it) ?: Int.MAX_VALUE }
         .none { neighborHeight -> neighborHeight <= height }
 }
 
-fun findAllLowPoints(area: Area): List<Point> {
+fun findAllLowPoints(area: Area<Int>): List<Point> {
     val lowPoints = mutableListOf<Point>()
 
     for (rowIdx in area.points.indices) {
@@ -20,7 +20,7 @@ fun findAllLowPoints(area: Area): List<Point> {
     return lowPoints
 }
 
-fun discoverBasinSize(p: Point, a: Area) : Int {
+fun discoverBasinSize(p: Point, a: Area<Int>) : Int {
     val basin = mutableSetOf(p)
     val candidates = mutableListOf(p)
 
@@ -39,18 +39,18 @@ fun discoverBasinSize(p: Point, a: Area) : Int {
     return basin.size
 }
 
-fun findAllBasinSizes(area: Area) : List<Int> {
+fun findAllBasinSizes(area: Area<Int>) : List<Int> {
     return findAllLowPoints(area).map { discoverBasinSize(it, area) }
 }
 
 fun main() {
     fun part1(input: List<String>): Int {
-        val area = Area.toArea(input)
+        val area = Area.toIntArea(input)
         return findAllLowPoints(area).sumOf { area.at(it)!! + 1 }
     }
 
     fun part2(input: List<String>): Int {
-        return findAllBasinSizes(Area.toArea(input)).sorted().reversed().take(3).fold(1) { x, y -> x * y }
+        return findAllBasinSizes(Area.toIntArea(input)).sorted().reversed().take(3).fold(1) { x, y -> x * y }
     }
 
     // test if implementation meets criteria from the description, like:

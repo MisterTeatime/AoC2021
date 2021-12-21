@@ -2,7 +2,7 @@ typealias CavePath = List<Point>
 
 fun main() {
     fun part1(input: List<String>): Long {
-        val cave = Area.toArea(input)
+        val cave = Area.toIntArea(input)
 
         val start = Point(0,0)
         val end = Point(cave.points[0].size - 1,cave.points.size - 1)
@@ -25,7 +25,7 @@ fun main() {
     println(part2(input))
 }
 
-fun findOptimalPath(start: Point, end:Point, a: Area): Pair<CavePath, Long> {
+fun findOptimalPath(start: Point, end:Point, a: Area<Int>): Pair<CavePath, Long> {
     //contains points discovered, that still must be evaluated. A point is related to its estimated distance to end
     val openPoints = mutableMapOf(start to getEstimateCost(start, end))
 
