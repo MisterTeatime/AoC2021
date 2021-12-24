@@ -9,7 +9,7 @@ fun main() {
         }
         val inputImage = Area.toBinaryArea(input.drop(2), one = '#', zero = '.')
 
-        val testPoints = Point(2,2).neighbors8AndSelf().map { inputImage.at(it) ?: 0}.joinToString("").toInt(2)
+        val testPoints = Point2D(2,2).neighbors8AndSelf().map { inputImage.at(it) ?: 0}.joinToString("").toInt(2)
 
 
         return input.size

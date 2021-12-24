@@ -1,6 +1,6 @@
 fun processFlashes(a: Area<Int>): Int {
     val candidates = getLoadedOctopuses(a)
-    val triggered = mutableSetOf<Point>()
+    val triggered = mutableSetOf<Point2D>()
 
     while (candidates.isNotEmpty()) {
         val candidate = candidates.removeFirst()
@@ -30,16 +30,16 @@ fun increaseAllEnergy(a: Area<Int>) {
     }
 }
 
-fun increaseEnergy(a: Area<Int>, p: Point) {
+fun increaseEnergy(a: Area<Int>, p: Point2D) {
     a.setValue(p, (a.at(p) ?: 0) + 1)
 }
 
-fun getLoadedOctopuses(a: Area<Int>): MutableList<Point> {
-    val loaded = mutableListOf<Point>()
+fun getLoadedOctopuses(a: Area<Int>): MutableList<Point2D> {
+    val loaded = mutableListOf<Point2D>()
     for (rowIdx in a.points.indices) {
         val row = a.points[rowIdx]
         for (colIdx in row.indices) {
-            val candidate = Point(colIdx, rowIdx)
+            val candidate = Point2D(colIdx, rowIdx)
             if ((a.at(candidate) ?: 0) > 9) loaded.add(candidate)
         }
     }

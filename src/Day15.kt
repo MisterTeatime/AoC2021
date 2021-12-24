@@ -1,11 +1,11 @@
-typealias CavePath = List<Point>
+typealias CavePath = List<Point2D>
 
 fun main() {
     fun part1(input: List<String>): Long {
         val cave = Area.toIntArea(input)
 
-        val start = Point(0,0)
-        val end = Point(cave.points[0].size - 1,cave.points.size - 1)
+        val start = Point2D(0,0)
+        val end = Point2D(cave.points[0].size - 1,cave.points.size - 1)
 
         val solution = findOptimalPath(start, end, cave)
 
@@ -25,18 +25,18 @@ fun main() {
     println(part2(input))
 }
 
-fun findOptimalPath(start: Point, end:Point, a: Area<Int>): Pair<CavePath, Long> {
+fun findOptimalPath(start: Point2D, end: Point2D, a: Area<Int>): Pair<CavePath, Long> {
     //contains points discovered, that still must be evaluated. A point is related to its estimated distance to end
     val openPoints = mutableMapOf(start to getEstimateCost(start, end))
 
     //points already checked and evaluated
-    val closedPoints = mutableSetOf<Point>()
+    val closedPoints = mutableSetOf<Point2D>()
 
     //Relates a point to its cost to reach from start
     val costFromStart = mutableMapOf(start to 0L)
 
     //Relates a point to its successor with the lowest cost
-    val cameFrom = mutableMapOf<Point, Point>()
+    val cameFrom = mutableMapOf<Point2D, Point2D>()
 
     while (openPoints.isNotEmpty()) {
         val (currentPoint, _) = openPoints.minByOrNull { it.value }!!
@@ -71,7 +71,7 @@ fun findOptimalPath(start: Point, end:Point, a: Area<Int>): Pair<CavePath, Long>
     return Pair(listOf(), Long.MAX_VALUE)
 }
 
-fun generatePath(pos: Point, cameFrom: MutableMap<Point, Point>): CavePath {
+fun generatePath(pos: Point2D, cameFrom: MutableMap<Point2D, Point2D>): CavePath {
     val path = mutableListOf(pos)
     var current = pos
 
@@ -83,4 +83,4 @@ fun generatePath(pos: Point, cameFrom: MutableMap<Point, Point>): CavePath {
     return path
 }
 
-fun getEstimateCost(from: Point, to: Point) = from.distanceTo(to).toLong()
+fun getEstimateCost(from: Point2D, to: Point2D) = from.distanceTo(to).toLong()

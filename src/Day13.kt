@@ -33,7 +33,7 @@ fun main() {
 fun getPoints(input: List<String>) = input
     .takeWhile { it.isNotEmpty() }
     .map { it.split(",") }
-    .map { Point(it[0].toInt(), it[1].toInt())}
+    .map { Point2D(it[0].toInt(), it[1].toInt()) }
     .toMutableSet()
 
 fun getFoldingInstructions(input: List<String>) = input
@@ -41,17 +41,17 @@ fun getFoldingInstructions(input: List<String>) = input
         .map { it.split("=") }
         .map { Fold(it[0].last(),it[1].toInt()) }
 
-fun fold(points: MutableSet<Point>, fold: Fold) {
+fun fold(points: MutableSet<Point2D>, fold: Fold) {
     when (fold.first) {
         'x' -> {
             val movingPoints = points.filter { it.x > fold.second }
             points.removeAll(movingPoints.toSet())                                          //remove points, that will be moved
-            points.addAll(movingPoints.map { Point(2 * fold.second - it.x, it.y) } )     //add folded points
+            points.addAll(movingPoints.map { Point2D(2 * fold.second - it.x, it.y) } )     //add folded points
         }
         'y' -> {
             val movingPoints = points.filter { it.y > fold.second }
             points.removeAll(movingPoints.toSet())                                          //remove points, that will be moved
-            points.addAll(movingPoints.map { Point(it.x, 2 * fold.second - it.y) } )     //add folded points
+            points.addAll(movingPoints.map { Point2D(it.x, 2 * fold.second - it.y) } )     //add folded points
 
         }
     }
@@ -61,7 +61,7 @@ fun fold(points: MutableSet<Point>, fold: Fold) {
  * turns a set of points into a "readable" form.
  * Every point is rendered as "*". By finding the max indices for x and y the "missing" points (points not in list, but below the max indices) are rendered with " "
  */
-fun printOutPoints(points: MutableSet<Point>) {
+fun printOutPoints(points: MutableSet<Point2D>) {
     println("-".repeat(points.maxOf { it.x + 1}))   //just for readability
     for (y in 0..points.maxOf { it.y }) {
         val line = mutableListOf<String>()
